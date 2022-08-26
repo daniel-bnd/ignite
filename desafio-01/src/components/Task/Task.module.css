@@ -1,0 +1,49 @@
+.container {
+  margin-top: 64px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.createdTasks,
+.tasksDone {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.createdTasks span,
+.tasksDone span {
+  display: inline-block;
+  padding: 2px 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 999px;
+  color: var(--gray-200);
+  background: var(--gray-400);
+}
+
+.createdTasks strong {
+  color: var(--blue-400);
+}
+
+.tasksDone strong {
+  color: var(--purple-400);
+}
+
+.tasksEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  border-top: 1px solid var(--gray-400);
+  border-radius: 8px;
+  color: var(--gray-300);
+  line-height: 140%;
+  gap: 1rem;
+}

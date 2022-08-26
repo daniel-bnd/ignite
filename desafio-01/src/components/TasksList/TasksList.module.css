@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 12px;
+  padding: 16px;
+  gap: 16px;
+  background: var(--gray-500);
+  border: 1px solid var(--gray-400);
+  border-radius: 8px;
+}
+
+.notDone {
+  flex: 1;
+  color: var(--gray-100);
+  font-size: 0.875rem;
+}
+
+.isDone {
+  flex: 1;
+  color: var(--gray-300);
+  font-size: 0.875rem;
+  text-decoration: line-through;
+}
+
+.container button {
+  color: var(--gray-300);
+  line-height: none;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.container button:hover {
+  cursor: pointer;
+  color: var(--gray-200);
+}
+
+.checkbox {
+  border: 2px solid var(--blue-400);
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+}
+
+.checkbox:hover {
+  cursor: pointer;
+  filter: brightness(1.2);
+}
+
+.checked {
+  border-color: transparent;
+  background: var(--purple-500);
+  color: var(--gray-100);
+}
