@@ -1,19 +1,24 @@
 import styled, { css } from "styled-components";
 import backgroundImg from "../../../../assets/background.svg";
+import { rgba } from "polished";
 
 export const IntroContainer = styled.div`
   width: 100%;
-  background: url(${backgroundImg});
+  height: 34rem;
+  background: ${({ theme }) => `url(${backgroundImg}) no-repeat center,
+    linear-gradient(
+      0deg,
+      ${theme.colors.base.white} 0%,
+      ${rgba(theme.colors.base.background, 0.2)} 50%,
+      ${theme.colors.base.background} 100%
+    )`};
+  background-size: cover;
 `;
 
 export const IntroContent = styled.div`
-  padding: 5.75rem 10rem;
+  padding: 5.75rem 0;
   display: flex;
   gap: 3.5rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
 `;
 
 export const LeftGrid = styled.div`
@@ -38,18 +43,18 @@ export const Title = styled.div`
 `;
 
 export const ItemsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 2.5rem;
-  grid-row-gap: 1.25rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 `;
 
 export const Items = styled.div`
-  width: 50%;
   display: flex;
   align-items: center;
   gap: 0.75rem;
