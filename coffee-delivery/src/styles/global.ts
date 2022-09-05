@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
   
   :focus {
     outline: 0;
-    box-shadow: 0 0 0 2px ${props => props.theme.colors.brand.yellow};
+    box-shadow: 0 0 0 2px ${props => props.theme.colors.brand.purple};
   }
 
   body {
@@ -20,4 +20,24 @@ export const GlobalStyle = createGlobalStyle`
   body, input, textarea, button {
     font: ${props => props.theme.fonts.regular.m}
   }
+
+  button {
+    cursor: pointer;
+    border: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button
+   {
+    -webkit-appearance: none;
+    margin: 0;
+   }
+
+   input[type="number"] {
+    -moz-appearance: textfield;
+   }
 `;
