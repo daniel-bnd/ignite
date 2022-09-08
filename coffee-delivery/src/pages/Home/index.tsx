@@ -1,6 +1,8 @@
 import { CoffeeCard } from "./components/CoffeeCard";
 import { Intro } from "./components/Intro";
-import { HomeContainer } from "./styles";
+import { CoffeeGrid, HomeContainer } from "./styles";
+
+import { coffees } from "@/data/coffee";
 
 export function Home() {
   return (
@@ -10,7 +12,19 @@ export function Home() {
       <HomeContainer className="container">
         <h2>Nossos Cafés</h2>
 
-        <CoffeeCard />
+        <CoffeeGrid>
+          {coffees.map(coffee => (
+            <CoffeeCard
+              key={coffee.id}
+              id={coffee.id}
+              tags={coffee.tags}
+              name={coffee.name}
+              description={coffee.description}
+              photo={coffee.photo}
+              price={coffee.price}
+            />
+          ))}
+        </CoffeeGrid>
       </HomeContainer>
     </>
   );

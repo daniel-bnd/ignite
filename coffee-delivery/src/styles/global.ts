@@ -30,6 +30,11 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  input {
+    border: none;
+    outline: none;
+  }
+
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button
    {

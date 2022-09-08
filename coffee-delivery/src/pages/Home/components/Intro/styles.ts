@@ -30,7 +30,7 @@ export const LeftGrid = styled.div`
 export const Title = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 
   h1 {
     font: ${props => props.theme.fonts.title.xl};
@@ -45,19 +45,19 @@ export const Title = styled.div`
 export const ItemsGrid = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 2.5rem;
+  gap: 40px;
 
   > div {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 20px;
   }
 `;
 
 export const Items = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
 
   span {
     white-space: nowrap;

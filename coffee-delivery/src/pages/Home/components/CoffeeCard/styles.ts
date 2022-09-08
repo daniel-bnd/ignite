@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const CoffeeContainer = styled.div`
   position: relative;
-  width: 310px;
   padding: 7rem 1.25rem 1.25rem 1.25rem;
   border-radius: 6px 36px 6px 36px;
   background: ${props => props.theme.colors.base.card};
@@ -31,6 +30,11 @@ export const CoffeeImg = styled.img`
   top: -20px;
 `;
 
+export const TagContainer = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
 export const CoffeeTag = styled.span`
   background: ${props => props.theme.colors.brand.yellowLight};
   padding: 0.25rem 0.5rem;
@@ -43,14 +47,14 @@ export const CoffeeTag = styled.span`
 
 export const CoffeeFooter = styled.footer`
   display: flex;
-  gap: 1.5rem;
+  gap: 24px;
   margin-top: 2rem;
 `;
 
 export const CoffeePrice = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 3.2px;
   font: ${props => props.theme.fonts.title.m};
 
   span {
@@ -60,7 +64,7 @@ export const CoffeePrice = styled.div`
 
 export const CoffeeActions = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
   width: 7.5rem;
 `;
 

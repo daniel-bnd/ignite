@@ -8,7 +8,7 @@ export const HeaderContainer = styled.header`
 
   div {
     display: flex;
-    gap: 0.75rem;
+    gap: 12px;
   }
 `;
 
