@@ -41,7 +41,8 @@ export const defaultTheme = {
     },
     components: {
       tag: "700 0.625rem/130% 'Roboto', sans-serif",
-      buttonSmall: "400 0.75rem/160% 'Roboto', sans-serif",
+      buttonS: "400 0.75rem/160% 'Roboto', sans-serif",
+      buttonG: "400 0.875rem/160% 'Roboto', sans-serif",
     },
   },
 };

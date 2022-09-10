@@ -48,7 +48,7 @@ export const PaymentTypeContainer = styled.div`
     }
 
     span {
-      font: ${props => props.theme.fonts.components.buttonSmall};
+      font: ${props => props.theme.fonts.components.buttonS};
       color: ${props => props.theme.colors.base.text};
       text-transform: uppercase;
     }

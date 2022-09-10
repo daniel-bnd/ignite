@@ -11,10 +11,8 @@ export const Title = styled.span`
   color: ${props => props.theme.colors.base.subtitle};
 `;
 
-export const OrderContainer = styled.div`
+export const AddressContainer = styled.div`
   flex: 1;
 `;
 
-export const ConfirmOrder = styled.div`
-  width: 448px;
-`;
+export const OrderContainer = styled.div``;
