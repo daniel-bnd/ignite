@@ -7,8 +7,6 @@ import { useContext } from "react";
 import { CartContext } from "@/contexts/CartContext";
 
 export function Home() {
-  const { teste } = useContext(CartContext);
-
   return (
     <>
       <Intro />
@@ -18,15 +16,7 @@ export function Home() {
 
         <CoffeeGrid>
           {coffees.map(coffee => (
-            <CoffeeCard
-              key={coffee.id}
-              id={coffee.id}
-              tags={coffee.tags}
-              name={coffee.name}
-              description={coffee.description}
-              photo={coffee.photo}
-              price={coffee.price}
-            />
+            <CoffeeCard key={coffee.id} coffee={coffee} />
           ))}
         </CoffeeGrid>
       </HomeContainer>

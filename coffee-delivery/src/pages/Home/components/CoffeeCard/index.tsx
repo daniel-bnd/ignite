@@ -1,5 +1,7 @@
 import { QuantityInput } from "@/components/QuantityInput";
+import { CartContext } from "@/contexts/CartContext";
 import { ShoppingCart } from "phosphor-react";
+import { useContext, useState } from "react";
 import {
   AddCartButton,
   CoffeeActions,
@@ -11,7 +13,7 @@ import {
   TagContainer,
 } from "./styles";
 
-interface CoffeeCardProps {
+interface Coffee {
   id: number;
   tags: string[];
   name: string;
@@ -20,38 +22,62 @@ interface CoffeeCardProps {
   price: number;
 }
 
-export function CoffeeCard({
-  id,
-  tags,
-  name,
-  description,
-  photo,
-  price,
-}: CoffeeCardProps) {
+interface CoffeeCardProps {
+  coffee: Coffee;
+}
+
+export function CoffeeCard({ coffee }: CoffeeCardProps) {
+  const { addCoffeeToCart } = useContext(CartContext);
+  const [coffeeQtd, setCoffeeQtd] = useState(1);
+
+  function handleAddCoffeToCart() {
+    const newCoffee = {
+      id: coffee.id,
+      name: coffee.name,
+      photo: coffee.photo,
+      price: coffee.price,
+      qtd: coffeeQtd,
+    };
+
+    addCoffeeToCart(newCoffee);
+  }
+
+  function incrementCoffeeQtd() {
+    setCoffeeQtd(state => state + 1);
+  }
+
+  function decrementCoffeeQtd() {
+    setCoffeeQtd(state => state - 1);
+  }
+
   return (
     <CoffeeContainer>
-      <CoffeeImg src={`./coffees/${photo}`} alt="" />
+      <CoffeeImg src={`./coffees/${coffee.photo}`} alt="" />
 
       <TagContainer>
-        {tags.map(tag => (
-          <CoffeeTag key={id + tag}>{tag}</CoffeeTag>
+        {coffee.tags.map(tag => (
+          <CoffeeTag key={coffee.id + tag}>{tag}</CoffeeTag>
         ))}
       </TagContainer>
-      <strong>{name}</strong>
-      <p>{description}</p>
+      <strong>{coffee.name}</strong>
+      <p>{coffee.description}</p>
 
       <CoffeeFooter>
         <CoffeePrice>
           <span>R$</span>
           {Intl.NumberFormat("pt-BR", {
             minimumFractionDigits: 2,
-          }).format(price)}
+          }).format(coffee.price)}
         </CoffeePrice>
 
         <CoffeeActions>
-          <QuantityInput />
+          <QuantityInput
+            coffeeQtd={coffeeQtd}
+            incrementCoffeeQtd={incrementCoffeeQtd}
+            decrementCoffeeQtd={decrementCoffeeQtd}
+          />
 
-          <AddCartButton>
+          <AddCartButton onClick={handleAddCoffeToCart}>
             <ShoppingCart size={22} weight="fill" />
           </AddCartButton>
         </CoffeeActions>
