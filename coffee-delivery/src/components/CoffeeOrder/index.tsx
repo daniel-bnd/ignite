@@ -1,4 +1,7 @@
+import { CartContext } from "@/contexts/CartContext";
+import { Coffee as CoffeeProps } from "@/reducers/cartReducer/reducer";
 import { Trash } from "phosphor-react";
+import { useContext } from "react";
 import { QuantityInput } from "../QuantityInput";
 import {
   Coffee,
@@ -9,24 +12,53 @@ import {
   RemoveButton,
 } from "./styles";
 
-export function CoffeeOrder() {
+interface CoffeeOrderProps {
+  coffee: CoffeeProps;
+}
+
+export function CoffeeOrder({ coffee }: CoffeeOrderProps) {
+  const { removeCoffeeFromCart, incrementCoffeeQtd, decrementCoffeeQtd } =
+    useContext(CartContext);
+
+  function handleRemoveCoffeeFromCart() {
+    removeCoffeeFromCart(coffee.id);
+  }
+
+  function handleIncrementCoffeeQtd() {
+    incrementCoffeeQtd(coffee.id);
+  }
+
+  function handleDecrementCoffeeQtd() {
+    decrementCoffeeQtd(coffee.id);
+  }
+
   return (
     <>
       <CoffeeOrderContainer>
         <CoffeeContainer>
-          <img src="/coffees/americano.png" alt="" />
+          <img src={`/coffees/${coffee.photo}`} alt="" />
           <Coffee>
-            <p>Expresso Tradicional</p>
+            <p>{coffee.name}</p>
             <div>
-              <QuantityInput />
-              <RemoveButton>
+              <QuantityInput
+                coffeeQtd={coffee.qtd}
+                incrementCoffeeQtd={handleIncrementCoffeeQtd}
+                decrementCoffeeQtd={handleDecrementCoffeeQtd}
+              />
+              <RemoveButton onClick={handleRemoveCoffeeFromCart}>
                 <Trash size={16} />
                 <span>Remover</span>
               </RemoveButton>
             </div>
           </Coffee>
         </CoffeeContainer>
-        <Price>R$ 9,90</Price>
+        <Price>
+          {Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+            minimumFractionDigits: 2,
+          }).format(coffee.price * coffee.qtd)}
+        </Price>
       </CoffeeOrderContainer>
       <Divider />
     </>

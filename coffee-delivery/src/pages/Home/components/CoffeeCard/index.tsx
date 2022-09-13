@@ -31,15 +31,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [coffeeQtd, setCoffeeQtd] = useState(1);
 
   function handleAddCoffeToCart() {
-    const newCoffee = {
-      id: coffee.id,
-      name: coffee.name,
-      photo: coffee.photo,
-      price: coffee.price,
-      qtd: coffeeQtd,
-    };
-
-    addCoffeeToCart(newCoffee);
+    addCoffeeToCart({ ...coffee, qtd: coffeeQtd });
   }
 
   function incrementCoffeeQtd() {

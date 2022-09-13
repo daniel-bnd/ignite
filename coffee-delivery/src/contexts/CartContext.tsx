@@ -1,58 +1,55 @@
+import {
+  addToCartAction,
+  decrementCoffeeQtdAction,
+  incrementCoffeeQtdAction,
+  removeFromCartAction,
+} from "@/reducers/cartReducer/actions";
+import { cartReducer, Coffee } from "@/reducers/cartReducer/reducer";
 import { createContext, ReactNode, useReducer } from "react";
 
 interface CartContextProviderProps {
   children: ReactNode;
 }
 
-interface Coffee {
-  id: number;
-  name: string;
-  photo: string;
-  price: number;
-  qtd: number;
-}
-
-interface CartProps {
-  cart: Coffee[];
-}
-
 interface CartContextProps {
+  cartState: Coffee[];
   addCoffeeToCart: (coffee: Coffee) => void;
+  removeCoffeeFromCart: (coffeeId: number) => void;
+  incrementCoffeeQtd: (coffeeId: number) => void;
+  decrementCoffeeQtd: (coffeeId: number) => void;
 }
 
 export const CartContext = createContext({} as CartContextProps);
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const cartInitialState: CartProps = {
-    cart: [],
-  };
-
-  const [cartState, dispatch] = useReducer(
-    (state: CartProps, { type, payload }: any) => {
-      switch (type) {
-        case "ADD_TO_CART":
-          return {
-            ...state,
-            cart: [...state.cart, payload],
-          };
-        default:
-          return state;
-      }
-    },
-    cartInitialState
-  );
+  const [cartState, dispatch] = useReducer(cartReducer, []);
 
   function addCoffeeToCart(newCoffee: Coffee) {
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: newCoffee,
-    });
+    dispatch(addToCartAction(newCoffee));
   }
 
-  const { cart } = cartState;
+  function removeCoffeeFromCart(coffeeId: number) {
+    dispatch(removeFromCartAction(coffeeId));
+  }
+
+  function incrementCoffeeQtd(coffeeId: number) {
+    dispatch(incrementCoffeeQtdAction(coffeeId));
+  }
+
+  function decrementCoffeeQtd(coffeeId: number) {
+    dispatch(decrementCoffeeQtdAction(coffeeId));
+  }
 
   return (
-    <CartContext.Provider value={{ addCoffeeToCart }}>
+    <CartContext.Provider
+      value={{
+        cartState,
+        addCoffeeToCart,
+        removeCoffeeFromCart,
+        incrementCoffeeQtd,
+        decrementCoffeeQtd,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
