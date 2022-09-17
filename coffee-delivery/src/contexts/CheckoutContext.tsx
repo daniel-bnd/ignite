@@ -7,43 +7,55 @@ import {
 import { cartReducer, Coffee } from "@/reducers/cartReducer/reducer";
 import { createContext, ReactNode, useReducer } from "react";
 
-interface CartContextProviderProps {
+interface CheckoutContextProviderProps {
   children: ReactNode;
 }
 
-interface CartContextProps {
-  cartState: Coffee[];
+interface CheckoutState {
+  cart: Coffee[];
+  address?: any;
+  payment?: any;
+}
+
+interface CheckoutContextProps {
+  checkoutState: CheckoutState;
   addCoffeeToCart: (coffee: Coffee) => void;
   removeCoffeeFromCart: (coffeeId: number) => void;
   incrementCoffeeQtd: (coffeeId: number) => void;
   decrementCoffeeQtd: (coffeeId: number) => void;
 }
 
-export const CartContext = createContext({} as CartContextProps);
+export const CheckoutContext = createContext({} as CheckoutContextProps);
 
-export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cartState, dispatch] = useReducer(cartReducer, []);
+export function CheckoutContextProvider({
+  children,
+}: CheckoutContextProviderProps) {
+  const [cartState, cartDispatch] = useReducer(cartReducer, []);
 
   function addCoffeeToCart(newCoffee: Coffee) {
-    dispatch(addToCartAction(newCoffee));
+    cartDispatch(addToCartAction(newCoffee));
   }
 
   function removeCoffeeFromCart(coffeeId: number) {
-    dispatch(removeFromCartAction(coffeeId));
+    cartDispatch(removeFromCartAction(coffeeId));
   }
 
   function incrementCoffeeQtd(coffeeId: number) {
-    dispatch(incrementCoffeeQtdAction(coffeeId));
+    cartDispatch(incrementCoffeeQtdAction(coffeeId));
   }
 
   function decrementCoffeeQtd(coffeeId: number) {
-    dispatch(decrementCoffeeQtdAction(coffeeId));
+    cartDispatch(decrementCoffeeQtdAction(coffeeId));
   }
 
+  const checkoutState = {
+    cart: cartState,
+  };
+
   return (
-    <CartContext.Provider
+    <CheckoutContext.Provider
       value={{
-        cartState,
+        checkoutState,
         addCoffeeToCart,
         removeCoffeeFromCart,
         incrementCoffeeQtd,
@@ -51,6 +63,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       }}
     >
       {children}
-    </CartContext.Provider>
+    </CheckoutContext.Provider>
   );
 }

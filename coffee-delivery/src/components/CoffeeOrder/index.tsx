@@ -1,4 +1,4 @@
-import { CartContext } from "@/contexts/CartContext";
+import { CheckoutContext } from "@/contexts/CheckoutContext";
 import { Coffee as CoffeeProps } from "@/reducers/cartReducer/reducer";
 import { Trash } from "phosphor-react";
 import { useContext } from "react";
@@ -18,7 +18,7 @@ interface CoffeeOrderProps {
 
 export function CoffeeOrder({ coffee }: CoffeeOrderProps) {
   const { removeCoffeeFromCart, incrementCoffeeQtd, decrementCoffeeQtd } =
-    useContext(CartContext);
+    useContext(CheckoutContext);
 
   function handleRemoveCoffeeFromCart() {
     removeCoffeeFromCart(coffee.id);

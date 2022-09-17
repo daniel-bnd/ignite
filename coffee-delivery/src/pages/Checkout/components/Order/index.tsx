@@ -1,5 +1,5 @@
 import { CoffeeOrder } from "@/components/CoffeeOrder";
-import { CartContext } from "@/contexts/CartContext";
+import { CheckoutContext } from "@/contexts/CheckoutContext";
 import { useContext } from "react";
 import {
   ConfirmOrder,
@@ -10,18 +10,19 @@ import {
 } from "./styles";
 
 export function Order() {
-  const { cartState } = useContext(CartContext);
+  const { checkoutState } = useContext(CheckoutContext);
+  const { cart } = checkoutState;
 
   let finalPrice = 0;
 
-  cartState?.forEach(coffee => {
+  cart?.forEach(coffee => {
     const price = coffee.price * coffee.qtd;
     finalPrice += price;
   });
 
   return (
     <OrderContainer>
-      {cartState?.map(coffee => (
+      {cart?.map(coffee => (
         <CoffeeOrder key={coffee.id} coffee={coffee} />
       ))}
 

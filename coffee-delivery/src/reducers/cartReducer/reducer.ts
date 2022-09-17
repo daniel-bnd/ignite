@@ -12,10 +12,6 @@ export interface Coffee {
   qtd: number;
 }
 
-interface CartState {
-  cart: Coffee[];
-}
-
 export function cartReducer(state: Coffee[], { type, payload }: any) {
   switch (type) {
     case CartActionTypes.ADD_TO_CART:

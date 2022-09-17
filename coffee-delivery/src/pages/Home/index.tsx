@@ -3,8 +3,6 @@ import { Intro } from "./components/Intro";
 import { CoffeeGrid, HomeContainer } from "./styles";
 
 import { coffees } from "@/data/coffee";
-import { useContext } from "react";
-import { CartContext } from "@/contexts/CartContext";
 
 export function Home() {
   return (
