@@ -5,25 +5,8 @@ import {
   removeFromCartAction,
 } from "@/reducers/cartReducer/actions";
 import { cartReducer, Coffee } from "@/reducers/cartReducer/reducer";
-import { createContext, ReactNode, useReducer } from "react";
-
-interface CheckoutContextProviderProps {
-  children: ReactNode;
-}
-
-interface CheckoutState {
-  cart: Coffee[];
-  address?: any;
-  payment?: any;
-}
-
-interface CheckoutContextProps {
-  checkoutState: CheckoutState;
-  addCoffeeToCart: (coffee: Coffee) => void;
-  removeCoffeeFromCart: (coffeeId: number) => void;
-  incrementCoffeeQtd: (coffeeId: number) => void;
-  decrementCoffeeQtd: (coffeeId: number) => void;
-}
+import { createContext, useReducer, useState } from "react";
+import { CheckoutContextProps, CheckoutContextProviderProps } from "./models";
 
 export const CheckoutContext = createContext({} as CheckoutContextProps);
 
@@ -31,6 +14,7 @@ export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
   const [cartState, cartDispatch] = useReducer(cartReducer, []);
+  const [adress, setAddress] = useState({});
 
   function addCoffeeToCart(newCoffee: Coffee) {
     cartDispatch(addToCartAction(newCoffee));

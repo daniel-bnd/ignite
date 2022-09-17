@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 
 interface InputContainer {
   variant: "small" | "medium" | "large";
+  hasError?: boolean;
 }
 
 export const InputContainer = styled.input<InputContainer>`
@@ -10,11 +11,15 @@ export const InputContainer = styled.input<InputContainer>`
   border-radius: 4px;
   border: 1px solid ${props => props.theme.colors.base.button};
   background: ${props => props.theme.colors.base.input};
-  color: ${props => props.theme.colors.base.text};
+  color: #18181b;
   font: ${props => props.theme.fonts.regular.s};
 
   ::placeholder {
-    color: ${props => props.theme.colors.base.label};
+    color: #71717a;
+  }
+
+  :disabled {
+    color: #a1a1aa;
   }
 
   ${props =>
@@ -33,5 +38,11 @@ export const InputContainer = styled.input<InputContainer>`
     props.variant === "large" &&
     css`
       flex: 1;
+    `}
+
+  ${props =>
+    props.hasError &&
+    css`
+      border-color: #ef4444;
     `}
 `;
