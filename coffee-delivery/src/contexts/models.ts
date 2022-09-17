@@ -5,9 +5,18 @@ export interface CheckoutContextProviderProps {
   children: ReactNode;
 }
 
+export interface AddressState {
+  cep: string;
+  bairro: string;
+  complemento: string;
+  localidade: string;
+  logradouro: string;
+  uf: string;
+}
+
 export interface CheckoutState {
   cart: Coffee[];
-  address?: any;
+  address: AddressState;
   payment?: any;
 }
 
@@ -17,4 +26,5 @@ export interface CheckoutContextProps {
   removeCoffeeFromCart: (coffeeId: number) => void;
   incrementCoffeeQtd: (coffeeId: number) => void;
   decrementCoffeeQtd: (coffeeId: number) => void;
+  setAddressState: (address: AddressState) => void;
 }

@@ -6,10 +6,11 @@ import {
   FormContainer,
   InputWrapper,
 } from "./styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { CheckoutContext } from "@/contexts/CheckoutContext";
 
-interface AddressRequest {
+export interface AddressRequest {
   bairro: string;
   complemento: string;
   localidade: string;
@@ -28,6 +29,10 @@ export function Address() {
   const [province, setProvince] = useState("");
   const [hasError, setHasError] = useState(false);
 
+  const { checkoutState, setAddressState } = useContext(CheckoutContext);
+
+  console.log(checkoutState);
+
   useEffect(() => {
     if (cep.length === 8) {
       axios
@@ -45,6 +50,7 @@ export function Address() {
           setCity(data.localidade);
           setProvince(data.uf);
           setHasError(false);
+          setAddressState({ ...data, cep });
         });
 
       let newCepValue = cep

@@ -6,7 +6,11 @@ import {
 } from "@/reducers/cartReducer/actions";
 import { cartReducer, Coffee } from "@/reducers/cartReducer/reducer";
 import { createContext, useReducer, useState } from "react";
-import { CheckoutContextProps, CheckoutContextProviderProps } from "./models";
+import {
+  AddressState,
+  CheckoutContextProps,
+  CheckoutContextProviderProps,
+} from "./models";
 
 export const CheckoutContext = createContext({} as CheckoutContextProps);
 
@@ -14,7 +18,7 @@ export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
   const [cartState, cartDispatch] = useReducer(cartReducer, []);
-  const [adress, setAddress] = useState({});
+  const [address, setAddress] = useState({} as AddressState);
 
   function addCoffeeToCart(newCoffee: Coffee) {
     cartDispatch(addToCartAction(newCoffee));
@@ -32,8 +36,13 @@ export function CheckoutContextProvider({
     cartDispatch(decrementCoffeeQtdAction(coffeeId));
   }
 
+  function setAddressState(address: AddressState) {
+    setAddress(address);
+  }
+
   const checkoutState = {
     cart: cartState,
+    address,
   };
 
   return (
@@ -44,6 +53,7 @@ export function CheckoutContextProvider({
         removeCoffeeFromCart,
         incrementCoffeeQtd,
         decrementCoffeeQtd,
+        setAddressState,
       }}
     >
       {children}
