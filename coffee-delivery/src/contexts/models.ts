@@ -9,7 +9,7 @@ export interface CheckoutContextProviderProps {
 export interface CheckoutState {
   cart: Coffee[];
   address: Address;
-  payment?: any;
+  payment: "credit" | "debit" | "money" | "";
 }
 
 export interface CheckoutContextProps {
@@ -22,4 +22,5 @@ export interface CheckoutContextProps {
   setAddressCep: (cep: string) => void;
   setAddressNumber: (number: string) => void;
   setAddressComplement: (complement: string) => void;
+  setPayment: (payment: "credit" | "debit" | "money" | "") => void;
 }
