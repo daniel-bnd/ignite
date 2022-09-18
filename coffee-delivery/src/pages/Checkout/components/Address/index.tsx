@@ -19,60 +19,60 @@ export interface AddressRequest {
 }
 
 export function Address() {
-  const [address, setAddress] = useState({});
-  const [cep, setCep] = useState("");
-  const [street, setStreet] = useState("");
-  const [number, setNumber] = useState("");
-  const [complement, setComplement] = useState("");
-  const [district, setDistrict] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState("");
   const [hasError, setHasError] = useState(false);
 
-  const { checkoutState, setAddressState } = useContext(CheckoutContext);
+  const {
+    checkoutState,
+    setAddressState,
+    setAddressCep,
+    setAddressNumber,
+    setAddressComplement,
+  } = useContext(CheckoutContext);
 
-  console.log(checkoutState);
+  const { address } = checkoutState;
 
   useEffect(() => {
-    if (cep.length === 8) {
+    if (address.cep.length === 8) {
       axios
-        .get(`https://viacep.com.br/ws/${Number(cep)}/json/`)
+        .get(`https://viacep.com.br/ws/${Number(address.cep)}/json/`)
         .then(response => {
           if (response.data?.erro) {
             setHasError(true);
             return;
           }
-
           const data: AddressRequest = response.data;
-          setStreet(data.logradouro);
-          setComplement(data.complemento);
-          setDistrict(data.bairro);
-          setCity(data.localidade);
-          setProvince(data.uf);
+
+          let cepFormatted = address.cep
+            .split("")
+            .map((value, index) => {
+              if (index === 2) {
+                return "." + value;
+              }
+              if (index === 5) {
+                return "-" + value;
+              }
+              return value;
+            })
+            .join("");
+
+          setAddressState({
+            cep: cepFormatted,
+            street: data.logradouro,
+            number: "",
+            complement: data.complemento,
+            district: data.bairro,
+            city: data.localidade,
+            province: data.uf,
+          });
+
           setHasError(false);
-          setAddressState({ ...data, cep });
         });
-
-      let newCepValue = cep
-        .split("")
-        .map((value, index) => {
-          if (index === 2) {
-            return "." + value;
-          }
-          if (index === 5) {
-            return "-" + value;
-          }
-          return value;
-        })
-        .join("");
-
-      setCep(newCepValue);
     }
-  }, [cep]);
+  }, [address.cep]);
 
   function setCepValue(cepInput: string) {
     if (cepInput.length <= 8) {
-      setCep(cepInput);
+      setAddressCep(cepInput);
     }
   }
 
@@ -92,33 +92,32 @@ export function Address() {
         <Input
           variant="medium"
           placeholder="CEP"
-          value={cep}
+          value={address.cep}
           onChange={e => setCepValue(e.target.value)}
-          onFocus={() => setCep("")}
+          onFocus={() => setAddressCep("")}
           hasError={hasError}
         />
         <Input
           variant="large"
           placeholder="Rua"
           disabled
-          value={street}
-          onChange={e => setStreet(e.target.value)}
+          value={address.street}
         />
         <InputWrapper>
           <Input
             variant="medium"
             type="number"
             placeholder="Número"
-            disabled={cep.length < 8}
-            value={number}
-            onChange={e => setNumber(e.target.value)}
+            disabled={!address.cep}
+            value={address.number}
+            onChange={e => setAddressNumber(e.target.value)}
           />
           <Input
             variant="large"
             placeholder="Complemento"
-            disabled={cep.length < 8}
-            value={complement}
-            onChange={e => setComplement(e.target.value)}
+            disabled={!address.cep}
+            value={address.complement}
+            onChange={e => setAddressComplement(e.target.value)}
           />
         </InputWrapper>
         <InputWrapper>
@@ -126,22 +125,19 @@ export function Address() {
             variant="medium"
             placeholder="Bairro"
             disabled
-            value={district}
-            onChange={e => setDistrict(e.target.value)}
+            value={address.district}
           />
           <Input
             variant="large"
             placeholder="Cidade"
             disabled
-            value={city}
-            onChange={e => setCity(e.target.value)}
+            value={address.city}
           />
           <Input
             variant="small"
             placeholder="UF"
             disabled
-            value={province}
-            onChange={e => setProvince(e.target.value)}
+            value={address.province}
           />
         </InputWrapper>
       </FormContainer>

@@ -1,4 +1,11 @@
 import {
+  setAddressCepAction,
+  setAddressComplementAction,
+  setAddressNumberAction,
+  setAddressStateAction,
+} from "@/reducers/addressReducer/actions";
+import { Address, addressReducer } from "@/reducers/addressReducer/reducer";
+import {
   addToCartAction,
   decrementCoffeeQtdAction,
   incrementCoffeeQtdAction,
@@ -6,19 +13,29 @@ import {
 } from "@/reducers/cartReducer/actions";
 import { cartReducer, Coffee } from "@/reducers/cartReducer/reducer";
 import { createContext, useReducer, useState } from "react";
-import {
-  AddressState,
-  CheckoutContextProps,
-  CheckoutContextProviderProps,
-} from "./models";
+import { CheckoutContextProps, CheckoutContextProviderProps } from "./models";
 
 export const CheckoutContext = createContext({} as CheckoutContextProps);
+
+const initialAddressState = {
+  cep: "",
+  street: "",
+  number: "",
+  complement: "",
+  district: "",
+  city: "",
+  province: "",
+};
 
 export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
   const [cartState, cartDispatch] = useReducer(cartReducer, []);
-  const [address, setAddress] = useState({} as AddressState);
+
+  const [addressState, addressDispatch] = useReducer(
+    addressReducer,
+    initialAddressState
+  );
 
   function addCoffeeToCart(newCoffee: Coffee) {
     cartDispatch(addToCartAction(newCoffee));
@@ -36,13 +53,25 @@ export function CheckoutContextProvider({
     cartDispatch(decrementCoffeeQtdAction(coffeeId));
   }
 
-  function setAddressState(address: AddressState) {
-    setAddress(address);
+  function setAddressState(address: Address) {
+    addressDispatch(setAddressStateAction(address));
+  }
+
+  function setAddressCep(cep: string) {
+    addressDispatch(setAddressCepAction(cep));
+  }
+
+  function setAddressNumber(number: string) {
+    addressDispatch(setAddressNumberAction(number));
+  }
+
+  function setAddressComplement(complement: string) {
+    addressDispatch(setAddressComplementAction(complement));
   }
 
   const checkoutState = {
     cart: cartState,
-    address,
+    address: addressState,
   };
 
   return (
@@ -54,6 +83,9 @@ export function CheckoutContextProvider({
         incrementCoffeeQtd,
         decrementCoffeeQtd,
         setAddressState,
+        setAddressCep,
+        setAddressNumber,
+        setAddressComplement,
       }}
     >
       {children}

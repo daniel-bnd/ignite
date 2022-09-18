@@ -1,3 +1,4 @@
+import { Address } from "@/reducers/addressReducer/reducer";
 import { Coffee } from "@/reducers/cartReducer/reducer";
 import { ReactNode } from "react";
 
@@ -5,18 +6,9 @@ export interface CheckoutContextProviderProps {
   children: ReactNode;
 }
 
-export interface AddressState {
-  cep: string;
-  bairro: string;
-  complemento: string;
-  localidade: string;
-  logradouro: string;
-  uf: string;
-}
-
 export interface CheckoutState {
   cart: Coffee[];
-  address: AddressState;
+  address: Address;
   payment?: any;
 }
 
@@ -26,5 +18,8 @@ export interface CheckoutContextProps {
   removeCoffeeFromCart: (coffeeId: number) => void;
   incrementCoffeeQtd: (coffeeId: number) => void;
   decrementCoffeeQtd: (coffeeId: number) => void;
-  setAddressState: (address: AddressState) => void;
+  setAddressState: (address: Address) => void;
+  setAddressCep: (cep: string) => void;
+  setAddressNumber: (number: string) => void;
+  setAddressComplement: (complement: string) => void;
 }
