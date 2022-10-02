@@ -31,12 +31,11 @@ export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
   const [cartState, cartDispatch] = useReducer(cartReducer, []);
-  const [addressState, addressDispatch] = useReducer(
-    addressReducer,
-    initialAddressState
-  );
+  const [addressState, addressDispatch] = useReducer<
+    (state: Address, { type, payload }: any) => Address
+  >(addressReducer, initialAddressState);
   const [paymentState, setPaymentState] = useState<
-    "credit" | "debit" | "money" | ""
+    "Cartão de Crétido" | "Cartão de Débito" | "Dinheiro" | ""
   >("");
 
   function addCoffeeToCart(newCoffee: Coffee) {
@@ -71,7 +70,9 @@ export function CheckoutContextProvider({
     addressDispatch(setAddressComplementAction(complement));
   }
 
-  function setPayment(payment: "credit" | "debit" | "money" | "") {
+  function setPayment(
+    payment: "Cartão de Crétido" | "Cartão de Débito" | "Dinheiro" | ""
+  ) {
     setPaymentState(payment);
   }
 

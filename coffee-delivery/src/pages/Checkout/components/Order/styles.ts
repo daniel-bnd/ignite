@@ -40,7 +40,12 @@ export const ConfirmOrder = styled.button`
   text-transform: uppercase;
   transition: background-color 0.2s;
 
-  :hover {
+  :enabled:hover {
     background: ${props => props.theme.colors.brand.yellowDark};
+  }
+
+  :disabled {
+    filter: opacity(0.8);
+    cursor: not-allowed;
   }
 `;

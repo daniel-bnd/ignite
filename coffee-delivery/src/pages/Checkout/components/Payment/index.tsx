@@ -1,11 +1,17 @@
+import { CheckoutContext } from "@/contexts/CheckoutContext";
 import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
+import { useContext } from "react";
 import {
   HeaderContainer,
+  PaymentButton,
   PaymentContainer,
   PaymentTypeContainer,
 } from "./styles";
 
 export function Payment() {
+  const { checkoutState, setPayment } = useContext(CheckoutContext);
+  const { payment } = checkoutState;
+
   return (
     <PaymentContainer>
       <HeaderContainer>
@@ -19,18 +25,27 @@ export function Payment() {
       </HeaderContainer>
 
       <PaymentTypeContainer>
-        <button>
+        <PaymentButton
+          onClick={() => setPayment("Cartão de Crétido")}
+          isActive={payment === "Cartão de Crétido"}
+        >
           <CreditCard size={16} />
           <span>Cartão de crédito</span>
-        </button>
-        <button>
+        </PaymentButton>
+        <PaymentButton
+          onClick={() => setPayment("Cartão de Débito")}
+          isActive={payment === "Cartão de Débito"}
+        >
           <Bank size={16} />
           <span>Cartão de débito</span>
-        </button>
-        <button>
+        </PaymentButton>
+        <PaymentButton
+          onClick={() => setPayment("Dinheiro")}
+          isActive={payment === "Dinheiro"}
+        >
           <Money size={16} />
           <span>Dinheiro</span>
-        </button>
+        </PaymentButton>
       </PaymentTypeContainer>
     </PaymentContainer>
   );

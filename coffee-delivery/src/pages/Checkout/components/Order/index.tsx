@@ -1,6 +1,7 @@
 import { CoffeeOrder } from "@/components/CoffeeOrder";
 import { CheckoutContext } from "@/contexts/CheckoutContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ConfirmOrder,
   OrderContainer,
@@ -10,15 +11,26 @@ import {
 } from "./styles";
 
 export function Order() {
+  const navigate = useNavigate();
   const { checkoutState } = useContext(CheckoutContext);
-  const { cart } = checkoutState;
+  const { cart, address, payment } = checkoutState;
 
   let finalPrice = 0;
+
+  useEffect(() => {
+    if (cart.length === 0) navigate("/");
+  }, [cart.length]);
 
   cart?.forEach(coffee => {
     const price = coffee.price * coffee.qtd;
     finalPrice += price;
   });
+
+  function handleConfirmOrder() {
+    if (cart.length > 0 && address.cep && address.number && payment !== "") {
+      navigate("/success");
+    }
+  }
 
   return (
     <OrderContainer>
@@ -53,7 +65,14 @@ export function Order() {
         </Total>
       </TotalContainer>
 
-      <ConfirmOrder>Confirmar Pedido</ConfirmOrder>
+      <ConfirmOrder
+        disabled={
+          cart.length === 0 || !address.cep || !address.number || payment === ""
+        }
+        onClick={handleConfirmOrder}
+      >
+        Confirmar Pedido
+      </ConfirmOrder>
     </OrderContainer>
   );
 }

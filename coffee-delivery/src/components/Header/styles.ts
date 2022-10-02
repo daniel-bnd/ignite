@@ -111,4 +111,31 @@ export const DialogContent = styled(Dialog.Content)`
       box-shadow: none;
     }
   }
+
+  .flex-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cep-button {
+    border: 2px solid ${props => props.theme.colors.brand.purple};
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${props => props.theme.colors.brand.purpleDark};
+    transition: background-color 0.2s, filter 0.2s;
+
+    :hover {
+      background: ${props => props.theme.colors.brand.purpleLight};
+      filter: brightness(0.9);
+    }
+
+    :focus {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
 `;

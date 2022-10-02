@@ -1,4 +1,6 @@
+import { CheckoutContext } from "@/contexts/CheckoutContext";
 import { CurrencyDollar, MapPin, Timer } from "phosphor-react";
+import { useContext } from "react";
 import {
   Icon,
   OrderContainer,
@@ -10,6 +12,10 @@ import {
 } from "./styles";
 
 export function Success() {
+  const { checkoutState } = useContext(CheckoutContext);
+
+  const { address, payment } = checkoutState;
+
   return (
     <SuccessContainer className="container">
       <strong>Uhu! Pedido confirmado</strong>
@@ -24,9 +30,13 @@ export function Success() {
               <OrderInfoContent>
                 <span>
                   Entrega em{" "}
-                  <span className="bold">Rua João Daniel Martinelli, 102</span>
+                  <span className="bold">
+                    {address.street}, {address.number}
+                  </span>
                 </span>
-                <span>Farrapos - Porto Alegre, RS</span>
+                <span>
+                  {address.district} - {address.city}, {address.province}
+                </span>
               </OrderInfoContent>
             </OrderInfo>
             <OrderInfo>
@@ -44,7 +54,7 @@ export function Success() {
               </Icon>
               <OrderInfoContent>
                 <span>Pagamento na entrega</span>
-                <span className="bold">Cartão de Crédito</span>
+                <span className="bold">{payment}</span>
               </OrderInfoContent>
             </OrderInfo>
           </OrderContainer>

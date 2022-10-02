@@ -7,11 +7,11 @@ import {
   NumberOfCoffes,
 } from "./styles";
 import logo from "../../assets/logo.svg";
-import { ShoppingCart, MapPin } from "phosphor-react";
+import { ShoppingCart, MapPin, ArrowRight } from "phosphor-react";
 import { NavLink } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "../Input";
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { CheckoutContext } from "@/contexts/CheckoutContext";
 import axios from "axios";
 import { AddressRequest } from "@/pages/Checkout/components/Address";
@@ -24,15 +24,14 @@ export function Header() {
 
   const { address, cart } = checkoutState;
 
-  useEffect(() => {
-    if (!address.city) {
-      setOpen(true);
-    }
-  }, []);
+  function handleOpenModal(bool: boolean) {
+    if (window.location.pathname !== "/checkout") setOpen(bool);
+  }
 
-  useEffect(() => {
+  async function setCepValue(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (address.cep.length === 8) {
-      axios
+      await axios
         .get(`https://viacep.com.br/ws/${Number(address.cep)}/json/`)
         .then(response => {
           if (response.data?.erro) {
@@ -68,12 +67,6 @@ export function Header() {
           setHasError(false);
         });
     }
-  }, [address.cep]);
-
-  function setCepValue(cepInput: string) {
-    if (cepInput.length <= 8) {
-      setAddressCep(cepInput);
-    }
   }
 
   return (
@@ -82,13 +75,15 @@ export function Header() {
         <img src={logo} />
       </NavLink>
       <div>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Root open={open} onOpenChange={handleOpenModal}>
           <LocationButton onClick={() => setAddressCep("")}>
             <MapPin size={22} weight="fill" />
-            {address.city && (
+            {address.city ? (
               <span>
                 {address.city}, {address.province}
               </span>
+            ) : (
+              <span>Insira seu CEP</span>
             )}
           </LocationButton>
           <Dialog.Portal>
@@ -99,15 +94,20 @@ export function Header() {
               }}
             >
               <Dialog.Title className="title">Insira seu CEP</Dialog.Title>
-              <Input
-                className="input"
-                variant="medium"
-                placeholder="CEP"
-                value={address.cep}
-                onChange={e => setCepValue(e.target.value)}
-                onFocus={() => setAddressCep("")}
-                hasError={hasError}
-              />
+              <form className="flex-center" onSubmit={setCepValue}>
+                <Input
+                  className="input"
+                  variant="medium"
+                  placeholder="CEP"
+                  value={address.cep}
+                  onChange={e => setAddressCep(e.target.value)}
+                  onFocus={() => setAddressCep("")}
+                  hasError={hasError}
+                />
+                <button className="cep-button" type="submit">
+                  <ArrowRight size={24} />
+                </button>
+              </form>
             </DialogContent>
           </Dialog.Portal>
         </Dialog.Root>
