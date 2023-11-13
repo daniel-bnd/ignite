@@ -1,4 +1,5 @@
 import { Header } from "../../components/Header";
+import { Posts } from "./components/Posts";
 import { Profile } from "./components/Profile";
 import { HomeContainer } from "./styles";
 
@@ -9,6 +10,7 @@ export const Home: React.FC = () => {
 
       <HomeContainer>
         <Profile />
+        <Posts />
       </HomeContainer>
     </>
   );

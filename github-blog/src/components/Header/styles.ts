@@ -14,6 +14,9 @@ export const HeaderContainer = styled.header`
 export const Logo = styled.img`
   margin-top: 31px;
   height: fit-content;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 interface ElipseProps {
@@ -22,23 +25,25 @@ interface ElipseProps {
 
 export const Elipse = styled.div<ElipseProps>`
   position: absolute;
-  top: -96px;
 
   width: 236px;
   height: 236px;
   background: #14589c;
   filter: blur(200px);
+  border-radius: 50%;
 
   ${props =>
     props.position === "left" &&
     css`
+      top: -96px;
       left: -130px;
     `}
 
   ${props =>
     props.position === "right" &&
     css`
-      right: -130px;
+      top: -52px;
+      right: 0;
     `}
 `;
 
