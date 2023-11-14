@@ -9,7 +9,7 @@ import {
   SearchPostsContainer,
   SearchPostsForm,
 } from "./styles";
-import { api } from "../../../../api/github";
+import { GITHUB_REPO, GITHUB_USER, api } from "../../../../api/github";
 
 import MagnifyingGlassIcon from "../../../../assets/magnifying-glass.svg";
 import { dateFormatter } from "../../../../utils/formatter";
@@ -36,8 +36,8 @@ export const Posts: React.FC = () => {
 
   async function getPosts(text?: string) {
     const q = text
-      ? `${text.replace(" ", "%20")}%20repo:daniel-bnd/ignite`
-      : "repo:daniel-bnd/ignite";
+      ? `${text.replace(" ", "%20")}%20repo:${GITHUB_USER}/${GITHUB_REPO}`
+      : `repo:${GITHUB_USER}/${GITHUB_REPO}`;
 
     const response = await api.get(`/search/issues?q=${q}`);
     setPosts(response.data.items);
