@@ -11,19 +11,44 @@ import ArrowUpIcon from "../../../../assets/arrow-up-right-icon.svg";
 import GithubIcon from "../../../../assets/github-icon.svg";
 import BuildingIcon from "../../../../assets/building-icon.svg";
 import UserIcon from "../../../../assets/user-icon.svg";
+import { useEffect, useState } from "react";
+import { GITHUB_USER, api } from "../../../../api/github";
+
+interface User {
+  login: string;
+  id: number;
+  avatar_url: string;
+  html_url: string;
+  name: string;
+  company: string;
+  bio: string;
+  followers: number;
+  following: number;
+}
 
 export const Profile: React.FC = () => {
+  const [user, setUser] = useState<User>();
+
+  async function getUser() {
+    const response = await api.get(`/users/${GITHUB_USER}`);
+    setUser(response.data);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <ProfileContainer>
       <ProfileContent>
-        <Avatar src={`https://github.com/daniel-bnd.png`} alt="" />
+        <Avatar src={user?.avatar_url} alt="" />
 
         <ProfileInfo>
           <header>
-            <h2>Daniel Bernardes</h2>
+            <h2>{user?.name}</h2>
 
             <LinkContainer
-              href={`https://github.com/daniel-bnd.png`}
+              href={`https://github.com/${user?.login}`}
               target="_blank"
             >
               <span>Github</span>
@@ -31,24 +56,20 @@ export const Profile: React.FC = () => {
             </LinkContainer>
           </header>
 
-          <p>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </p>
+          <p>{user?.bio}</p>
 
           <Footer>
             <div>
               <img src={GithubIcon} alt="" />
-              <span>daniel-bnd</span>
+              <span>{user?.login}</span>
             </div>
             <div>
               <img src={BuildingIcon} alt="" />
-              <span>Empresa</span>
+              <span>{user?.company}</span>
             </div>
             <div>
               <img src={UserIcon} alt="" />
-              <span>32 seguidores</span>
+              <span>{user?.followers} seguidores</span>
             </div>
           </Footer>
         </ProfileInfo>

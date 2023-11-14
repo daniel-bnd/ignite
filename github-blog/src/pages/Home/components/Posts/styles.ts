@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 export const PostsContainer = styled.article`
@@ -28,8 +29,15 @@ export const SearchPostsContainer = styled.section`
       color: ${props => props.theme.base.span};
     }
   }
+`;
+
+export const SearchPostsForm = styled.form`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
   input {
+    flex: 1;
     padding: 0.75rem 1rem;
     border-radius: 6px;
     border: 1px solid ${props => props.theme.base.border};
@@ -40,6 +48,33 @@ export const SearchPostsContainer = styled.section`
       color: ${props => props.theme.base.label};
     }
   }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: ${props => props.theme.base.input};
+    color: ${props => props.theme.base.text};
+    border-radius: 8px;
+    border: 1px solid ${props => props.theme.base.border};
+    cursor: pointer;
+
+    &:disabled {
+      filter: opacity(0.8);
+      cursor: not-allowed;
+    }
+
+    &:hover:not(disabled) {
+      transition: border-color 0.25s;
+      border-color: ${props => props.theme.blue};
+    }
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
 
 export const PostsGrid = styled.section`
@@ -48,7 +83,7 @@ export const PostsGrid = styled.section`
   gap: 2rem;
 `;
 
-export const Post = styled.a`
+export const Post = styled(Link)`
   text-decoration: none;
   width: 416px;
   height: 260px;
@@ -90,7 +125,7 @@ export const Post = styled.a`
     }
   }
 
-  p {
+  div {
     color: ${props => props.theme.base.text};
     line-height: 160%;
     display: -webkit-box;
@@ -98,5 +133,7 @@ export const Post = styled.a`
     -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-height: 6rem;
+    overflow: hidden;
   }
 `;
